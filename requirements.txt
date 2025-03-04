@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 gunicorn==23.0.0
 packaging==24.2
+=======
+flask
+gunicorn
+>>>>>>> 4267fb531208fd1b35ed148600870e970313b02e
