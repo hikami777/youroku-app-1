@@ -45,7 +45,7 @@ def generate_academic_report(attitude, strong_subject, effort, assignment):
     }
 
     # Gemini APIを呼び出してレポート生成
-    response = requests.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=GEMINI_API_KEY')
+    response = requests.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', headers=headers, json=data)
 
     if response.status_code == 200:
         result = response.json()
