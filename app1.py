@@ -1,21 +1,18 @@
-import requests
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import random
 import os
 
 # Flaskアプリケーションのセットアップ
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")  # 環境変数から読み込む
 
-# AI21 LabsのAPIキーを設定
-AI21_API_KEY = os.environ.get("m2V05g5fjeMVh6TQYcuL5K04hKAO7Tty")
-
 # Flask-Loginのセットアップ
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 # ユーザーデータ（ここでは簡単に辞書で管理）
-users = {"teacher": {"password": "hikaminishi123"}}  # ユーザー名: teacher, パスワード: password123
+users = {"teacher": {"password": "password123"}}  # ユーザー名: teacher, パスワード: password123
 
 # ユーザー管理クラス
 class User(UserMixin):
@@ -27,31 +24,38 @@ class User(UserMixin):
 def load_user(user_id):
     return User(user_id)
 
-# AI21 Labs APIを使ってレポートを生成する関数
+# 文章生成関数
 def generate_academic_report(attitude, strong_subject, effort, assignment):
-    prompt = f"授業態度: {attitude}\n得意科目: {strong_subject}\n努力: {effort}\n課題: {assignment}\n\n以下の情報をもとに、200文字程度の学業評価を生成してください。"
+    attitude_variations = [
+        f"授業態度は{attitude}。",
+        f"授業に対して{attitude}姿勢を示す。",
+        f"学習に対する意欲は高く、{attitude}。",
+    ]
 
-    headers = {
-        'Authorization': f'Bearer {AI21_API_KEY}',
-        'Content-Type': 'application/json'
-    }
+    subject_variations = [
+        f"得意科目は{strong_subject}で、高い理解力を持つ。",
+        f"{strong_subject}に強みを持ち、論理的思考を発揮する。",
+    ]
 
-    data = {
-        "prompt": prompt,
-        "numResults": 1,
-        "maxTokens": 150,
-        "temperature": 0.7
-    }
+    effort_variations = [
+        f"{effort}工夫をしている。",
+        f"{effort}ことを意識して学習に取り組む。",
+    ]
 
-    # AI21 Labs APIを呼び出してレポート生成
-    response = requests.post('https://api.ai21.com/studio/v1/j1-jumbo/complete', headers=headers, json=data)
+    assignment_variations = [
+        f"課題は{assignment}。",
+        f"{assignment}点が評価される。",
+    ]
 
-    if response.status_code == 200:
-        result = response.json()
-        report = result['completions'][0]['text'].strip()
-        return report
-    else:
-        return "レポート生成に失敗しました。"
+    # ランダムに表現を選択
+    report = (
+        random.choice(attitude_variations) +
+        random.choice(subject_variations) +
+        random.choice(effort_variations) +
+        random.choice(assignment_variations)
+    )
+
+    return report
 
 # ホームページ
 @app.route('/')
@@ -98,5 +102,3 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-if __name__ == "__main__":
-    app.run(debug=True)
