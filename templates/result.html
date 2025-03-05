@@ -7,8 +7,13 @@
 </head>
 <body>
     <h1>学業評価レポート</h1>
-    <p><strong>レポート:</strong></p>
-    <p>{{ report }}</p>
+    {% if report %}
+        <p><strong>レポート:</strong></p>
+        <p>{{ report }}</p>
+    {% else %}
+        <p><strong>エラー:</strong></p>
+        <p>{{ error_message }}</p>
+    {% endif %}
 
     <!-- デバッグ用情報 -->
     <h2>デバッグ情報</h2>
