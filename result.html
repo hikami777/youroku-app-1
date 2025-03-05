@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レポート結果</title>
+</head>
+<body>
+    <h1>学業評価レポート</h1>
+    <p><strong>レポート:</strong></p>
+    <p>{{ report }}</p>
+
+    <!-- デバッグ用情報 -->
+    <h2>デバッグ情報</h2>
+    <pre>
+        {{ debug_info }}
+    </pre>
+
+    <a href="{{ url_for('generate_form') }}">レポート生成フォームに戻る</a>
+</body>
+</html>

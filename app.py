@@ -90,9 +90,15 @@ def generate_report():
     if not all([attitude, strong_subject, effort, assignment]):
         return "All fields are required!"
 
+    # レポート生成処理
     report = generate_academic_report(attitude, strong_subject, effort, assignment)
-    print(report)  # レポートの内容をデバッグ用に表示
-    return render_template('result.html', report=report)
+    
+    # デバッグ情報を設定
+    debug_info = f"Attitude: {attitude}\nStrong Subject: {strong_subject}\nEffort: {effort}\nAssignment: {assignment}"
+
+    # レポートとデバッグ情報をresult.htmlに渡す
+    return render_template('result.html', report=report, debug_info=debug_info)
+
 
 # ログアウト処理
 @app.route('/logout')
