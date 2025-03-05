@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")  # 環境変数から読み込む
 
-# AI21 LabsのAPIキーを設定
+# Gemini APIのAPIキーを設定
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 # Flask-Loginのセットアップ
@@ -15,7 +15,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # ユーザーデータ（ここでは簡単に辞書で管理）
-users = {"teacher": {"password": "hikaminishi123"}}  # ユーザー名: teacher, パスワード: password123
+users = {"teacher": {"password": "hikaminishi123"}}  # ユーザー名: teacher, パスワード: hikaminishi123
 
 # ユーザー管理クラス
 class User(UserMixin):
@@ -27,7 +27,7 @@ class User(UserMixin):
 def load_user(user_id):
     return User(user_id)
 
-# AI21 Labs APIを使ってレポートを生成する関数
+# Gemini APIを使ってレポートを生成する関数
 def generate_academic_report(attitude, strong_subject, effort, assignment):
     prompt = f"授業態度: {attitude}\n得意科目: {strong_subject}\n努力: {effort}\n課題: {assignment}\n\n以下の情報をもとに、200文字程度の学業評価を生成してください。"
 
@@ -37,18 +37,19 @@ def generate_academic_report(attitude, strong_subject, effort, assignment):
     }
 
     data = {
+        "model": "models/gemini-2.0-flash-lite",  # ここにモデルIDを追加
         "prompt": prompt,
         "numResults": 1,
         "maxTokens": 150,
         "temperature": 0.7
     }
 
-    # AI21 Labs APIを呼び出してレポート生成
-    response = requests.post('https://api.gemini.com/v1/complete', headers=headers, json=data)
+    # Gemini APIを呼び出してレポート生成
+    response = requests.post('https://gemini.googleapis.com/v1beta/{model=tunedModels/*}:generateText', headers=headers, json=data)
 
-    if response.status_code == 250:
+    if response.status_code == 200:
         result = response.json()
-        report = result['completions'][0]['text'].strip()
+        report = result.get("text", "レポートが生成されませんでした。")
         return report, None  # 成功した場合、レポートとエラーなしを返す
     else:
         # エラーの場合、レスポンス内容をデバッグ情報として返す
