@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レポート生成フォーム</title>
+</head>
+<body>
+    <h2>レポート生成フォーム</h2>
+    <form action="/generate_report" method="post">
+        <label for="attitude">授業態度:</label>
+        <input type="text" id="attitude" name="attitude" required><br><br>
+
+        <label for="strong_subject">得意科目:</label>
+        <input type="text" id="strong_subject" name="strong_subject" required><br><br>
+
+        <label for="effort">努力:</label>
+        <input type="text" id="effort" name="effort" required><br><br>
+
+        <label for="assignment">課題:</label>
+        <input type="text" id="assignment" name="assignment" required><br><br>
+
+        <button type="submit">レポート生成</button>
+    </form>
+</body>
+</html>
