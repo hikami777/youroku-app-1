@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")  # 環境変数から読み込む
 
 # AI21 LabsのAPIキーを設定
-AI21_API_KEY = os.environ.get("m2V05g5fjeMVh6TQYcuL5K04hKAO7Tty")
+AI21_API_KEY = os.environ.get("AIzaSyBJTSKLMp0rRQaru1BkKFQNhl0BKPaRBik")
 
 # Flask-Loginのセットアップ
 login_manager = LoginManager()
@@ -46,7 +46,7 @@ def generate_academic_report(attitude, strong_subject, effort, assignment):
     # AI21 Labs APIを呼び出してレポート生成
     response = requests.post('https://api.ai21.com/studio/v1/j1-jumbo/complete', headers=headers, json=data)
 
-    if response.status_code == 200:
+    if response.status_code == 250:
         result = response.json()
         report = result['completions'][0]['text'].strip()
         return report, None  # 成功した場合、レポートとエラーなしを返す
