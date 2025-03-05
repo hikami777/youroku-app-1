@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")  # 環境変数から読み込む
 
 # AI21 LabsのAPIキーを設定
-AI21_API_KEY = os.environ.get("AIzaSyBJTSKLMp0rRQaru1BkKFQNhl0BKPaRBik")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 # Flask-Loginのセットアップ
 login_manager = LoginManager()
@@ -32,7 +32,7 @@ def generate_academic_report(attitude, strong_subject, effort, assignment):
     prompt = f"授業態度: {attitude}\n得意科目: {strong_subject}\n努力: {effort}\n課題: {assignment}\n\n以下の情報をもとに、200文字程度の学業評価を生成してください。"
 
     headers = {
-        'Authorization': f'Bearer {AI21_API_KEY}',
+        'Authorization': f'Bearer {GEMINI_API_KEY}',
         'Content-Type': 'application/json'
     }
 
@@ -44,7 +44,7 @@ def generate_academic_report(attitude, strong_subject, effort, assignment):
     }
 
     # AI21 Labs APIを呼び出してレポート生成
-    response = requests.post('https://api.ai21.com/studio/v1/j1-jumbo/complete', headers=headers, json=data)
+    response = requests.post('https://api.gemini.com/v1/complete', headers=headers, json=data)
 
     if response.status_code == 250:
         result = response.json()
