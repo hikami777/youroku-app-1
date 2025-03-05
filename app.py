@@ -48,9 +48,11 @@ def generate_academic_report(attitude, strong_subject, effort, assignment):
 
     if response.status_code == 200:
         result = response.json()
+        print(result)  # レスポンス内容を確認
         report = result['completions'][0]['text'].strip()
         return report
     else:
+        print(f"Error: {response.status_code}")
         return "レポート生成に失敗しました。"
 
 # ホームページ
@@ -89,6 +91,7 @@ def generate_report():
         return "All fields are required!"
 
     report = generate_academic_report(attitude, strong_subject, effort, assignment)
+    print(report)  # レポートの内容をデバッグ用に表示
     return render_template('result.html', report=report)
 
 # ログアウト処理
