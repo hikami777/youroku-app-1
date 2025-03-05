@@ -7,20 +7,21 @@
 </head>
 <body>
     <h1>学業評価レポート</h1>
-    {% if report %}
-        <p><strong>レポート:</strong></p>
-        <p>{{ report }}</p>
-    {% else %}
+    
+    {% if error_message %}
         <p><strong>エラー:</strong></p>
-        <p>{{ error_message }}</p>
+        <p>{{ error_message }}</p>  <!-- エラーメッセージを表示 -->
+    {% else %}
+        <p><strong>生成されたレポート:</strong></p>
+        <p>{{ report }}</p>  <!-- 生成されたレポートを表示 -->
     {% endif %}
 
     <!-- デバッグ用情報 -->
     <h2>デバッグ情報</h2>
     <pre>
-        {{ debug_info }}
+        {{ debug_info }}  <!-- デバッグ情報を動的に表示 -->
     </pre>
 
-    <a href="{{ url_for('generate_form') }}">レポート生成フォームに戻る</a>
+    <a href="/generate_form">レポート生成フォームに戻る</a>
 </body>
 </html>
