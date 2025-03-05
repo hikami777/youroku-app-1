@@ -2,6 +2,8 @@ import requests
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import os
+import google.generativeai as genai
+
 
 # Flaskアプリケーションのセットアップ
 app = Flask(__name__)
@@ -37,7 +39,7 @@ def generate_academic_report(attitude, strong_subject, effort, assignment):
     }
 
     data = {
-        "model": "models/gemini-2.0-flash-lite",  # ここにモデルIDを追加
+         "model": "gemini-1.5-flash",  # Gemini 1.5 モデルを使用
         "prompt": prompt,
         "numResults": 1,
         "maxTokens": 150,
